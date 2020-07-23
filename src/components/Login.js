@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Form, Input, Container, Button, FormGroup } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchLogin } from "../redux/actions";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useHistory } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignupSchema = yup.object().shape({
@@ -16,7 +16,7 @@ const SignupSchema = yup.object().shape({
 });
 
 const Login = () => {
-  const { control, register, handleSubmit, errors, reset } = useForm({
+  const { control, register, handleSubmit, errors } = useForm({
     resolver: yupResolver(SignupSchema),
   });
 
@@ -24,21 +24,10 @@ const Login = () => {
 
   const history = useHistory();
 
-  const notify = () => {
-    toast.success("Login successfully!!", {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: false,
-      progress: undefined,
-    });
-  };
-
   const onSubmit = (data) => {
     console.log(data);
-    dispatch(fetchLogin(data.userName, data.pwd, history), notify());
+    dispatch(fetchLogin(data.userName, data.pwd, history));
+
     // reset({ userName: "", pwd: "" });
   };
 
@@ -85,7 +74,7 @@ const Login = () => {
           Log in
         </Button>
       </Form>
-      <ToastContainer></ToastContainer>
+      {/* <ToastContainer></ToastContainer> */}
     </Container>
   );
 };

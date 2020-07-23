@@ -1,5 +1,5 @@
 import React from "react";
-import { Login, Dashboard } from "../components";
+import { Login } from "../components";
 
 const Home = () => {
   return <Login></Login>;

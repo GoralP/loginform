@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { Dashboard } from "./components";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="/dashboard" component={Dashboard}></Route>
         </Switch>
       </Router>
+      <ToastContainer></ToastContainer>
     </Provider>
   );
 };

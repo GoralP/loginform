@@ -5,7 +5,6 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   Input,
   Form,
   Container,
@@ -14,6 +13,8 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
+import { useDispatch } from "react-redux";
+import { addPaste } from "../redux/actions";
 
 const SignupSchema = yup.object().shape({
   newPaste: yup.string().required(),
@@ -22,7 +23,7 @@ const SignupSchema = yup.object().shape({
 });
 
 const Dashboard = () => {
-  const { control, register, handleSubmit, errors, reset } = useForm({
+  const { control, register, handleSubmit, errors } = useForm({
     resolver: yupResolver(SignupSchema),
   });
 
@@ -30,9 +31,11 @@ const Dashboard = () => {
 
   const toggle = () => setModal(!modal);
 
-  const onSubmit = (values) => {
-    console.log(values);
-    reset({ newPaste: "" });
+  const dispatch = useDispatch();
+
+  const onSubmit = (data) => {
+    console.log(data);
+    dispatch(addPaste(data.newPaste, data.expiration, data.exposure));
   };
 
   return (
@@ -73,21 +76,21 @@ const Dashboard = () => {
                 type="select"
                 defaultValue=""
                 ref={register}
-                // className={errors && errors.expiration ? "is-invalid" : ""}
+                className={errors && errors.expiration ? "is-invalid" : ""}
               >
                 <option>Never</option>
-                <option value="BackLog">10 Minutes</option>
-                <option value="In Progress">1 Hour</option>
-                <option value="Done">1 Day</option>
-                <option value="Done">1 Week</option>
-                <option value="Done">2 Weeks</option>
-                <option value="Done">1 Month</option>
-                <option value="Done">6 Months</option>
-                <option value="Done">1 Year</option>
+                <option>10 Minutes</option>
+                <option>1 Hour</option>
+                <option>1 Day</option>
+                <option>1 Week</option>
+                <option>2 Weeks</option>
+                <option>1 Month</option>
+                <option>6 Months</option>
+                <option>1 Year</option>
               </Controller>
-              {/* {errors && errors.expiration && (
-            <span className="text-danger">{errors.expiration.message}</span>
-          )} */}
+              {errors && errors.expiration && (
+                <span className="text-danger">{errors.expiration.message}</span>
+              )}
             </FormGroup>
             <FormGroup>
               Paste Exposure :
@@ -98,19 +101,33 @@ const Dashboard = () => {
                 type="select"
                 defaultValue=""
                 ref={register}
-                // className={errors && errors.exposure ? "is-invalid" : ""}
+                className={errors && errors.exposure ? "is-invalid" : ""}
               >
                 <option>Select</option>
-                <option value="BackLog">Public</option>
-                <option value="In Progress">Private</option>
+                <option>Public</option>
+                <option>Private</option>
               </Controller>
-              {/* {errors && errors.exposure && (
-            <span className="text-danger">{errors.exposure.message}</span>
-          )} */}
+              {errors && errors.exposure && (
+                <span className="text-danger">{errors.exposure.message}</span>
+              )}
             </FormGroup>
-            <Button color="secondary" onClick={toggle}>
-              Add
-            </Button>
+            <FormGroup>
+              Title
+              <Controller
+                as={Input}
+                control={control}
+                name="title"
+                type="text"
+                placeholder="title"
+                defaultValue=""
+                ref={register}
+                className={errors && errors.title ? "is-invalid" : ""}
+              />
+              {errors && errors.title && (
+                <span className="text-danger">{errors.title.message}</span>
+              )}
+            </FormGroup>
+            <Button color="secondary">Submit</Button>
           </Form>
         </ModalBody>
       </Modal>
