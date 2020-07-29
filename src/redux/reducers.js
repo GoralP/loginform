@@ -27,6 +27,7 @@ const loginReducer = (state = initialState, action) => {
         error: "",
         message: action.message,
       };
+
     case "ADDPASTE_PENDING":
       return { ...state, addpaste: { loading: true, paste: null } };
     case "ADDPASTE_SUCCESS":
@@ -34,7 +35,12 @@ const loginReducer = (state = initialState, action) => {
     case "ADDPASTE_FAILURE":
       return {
         ...state,
-        addpaste: { loading: false, message: action.message },
+        addpaste: {
+          loading: false,
+          error: true,
+          message: action.message,
+          paste: null,
+        },
       };
     case "GETPASTE_PENDING":
       return { ...state, getpaste: { loading: true, allpaste: null } };
@@ -46,7 +52,12 @@ const loginReducer = (state = initialState, action) => {
     case "GETPASTE_FAILURE":
       return {
         ...state,
-        getpaste: { loading: false, message: action.message },
+        getpaste: {
+          loading: false,
+          error: true,
+          message: action.message,
+          allpaste: null,
+        },
       };
     default:
       return { ...state };

@@ -13,14 +13,18 @@ export const fetchLogin = (identifier, password, history) => {
       })
       .then((res) => {
         localStorage.setItem("token", res.data.jwt);
+        localStorage.setItem("tokenn", res.data.user.username);
+
         dispatch({
           type: "LOGIN_FETCH_SUCCESS",
           identifier: res.data.identifier,
           password: res.data.password,
         });
+
         toast.success("Login successfully!!", {
           position: toast.POSITION.TOP_CENTER,
         });
+
         history.push("/dashboard");
       })
       .catch((error) => {
@@ -33,35 +37,62 @@ export const fetchLogin = (identifier, password, history) => {
 };
 
 export const addPaste = (content, expiration, exposure, title) => {
-  const jwt = localStorage.getItem("token");
-  console.log(jwt);
+  const getToken = localStorage.getItem("token");
+
+  console.log(getToken);
   return (dispatch) => {
     dispatch({ type: "ADDPASTE_PENDING" });
 
     axios
-      .post("https://pastebindemo.herokuapp.com/pastes", {
-        content: content,
-        expiration: expiration,
-        exposure: exposure,
-        title: title,
-
-        headers: {
-          Authorization: `Bearer ${jwt}`,
+      .post(
+        "https://pastebindemo.herokuapp.com/pastes",
+        {
+          content: content,
+          Expiration: expiration,
+          Exposure: exposure,
+          title: title,
         },
-      })
-      .then((res) =>
+        {
+          headers: {
+            Authorization: `Bearer ${getToken}`,
+          },
+        }
+      )
+      .then((res) => {
         dispatch({
           type: "ADDPASTE_SUCCESS",
+          paste: res.data,
+        });
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({ type: "ADDPASTE_FAILURE", message: error.res });
+      });
+  };
+};
 
-          content: content,
-          expiration: expiration,
-          exposure: exposure,
-          title: title,
+export const getPaste = () => {
+  const getToken = localStorage.getItem("token");
+  console.log(getToken);
+  return (dispatch) => {
+    dispatch({ type: "GETPASTE_PENDING" });
 
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        })
-      );
+    axios
+      .get("https://pastebindemo.herokuapp.com/pastes", {
+        headers: {
+          Authorization: `Bearer ${getToken}`,
+        },
+      })
+
+      .then((res) => {
+        dispatch({ type: "GETPASTE_SUCCESS", allpaste: res.data });
+        console.log(res);
+      })
+
+      .catch((error) => {
+        console.log(error);
+        dispatch({ type: "GETPASTE_FAILURE", message: error.res });
+      });
   };
 };

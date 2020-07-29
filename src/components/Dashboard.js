@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   Button,
@@ -9,12 +9,16 @@ import {
   Form,
   Container,
   FormGroup,
+  Row,
+  Col,
 } from "reactstrap";
 import { useForm, Controller } from "react-hook-form";
+import { Header } from "../components";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
-import { useDispatch } from "react-redux";
-import { addPaste } from "../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { addPaste, getPaste } from "../redux/actions";
+import Moment from "react-moment";
 
 const SignupSchema = yup.object().shape({
   newPaste: yup.string().required(),
@@ -35,11 +39,26 @@ const Dashboard = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    dispatch(addPaste(data.newPaste, data.expiration, data.exposure));
+
+    dispatch(
+      addPaste(data.newPaste, data.expiration, data.exposure, data.title)
+    );
+    // dispatch(getPaste());
   };
+
+  const { allpaste } = useSelector((state) => ({
+    allpaste: state.loginReducer.getpaste.allpaste,
+  }));
+  console.log(allpaste);
+
+  useEffect(() => {
+    dispatch(getPaste());
+  }, [dispatch]);
 
   return (
     <Container fluid="fluid">
+      <Header></Header>
+
       <Button color="info" onClick={toggle} className="mt-3">
         Add New Paste
       </Button>
@@ -58,7 +77,7 @@ const Dashboard = () => {
                 control={control}
                 name="newPaste"
                 type="textarea"
-                placeholder="Username"
+                placeholder="Enter Paste Description"
                 defaultValue=""
                 ref={register}
                 className={errors && errors.newPaste ? "is-invalid" : ""}
@@ -78,15 +97,9 @@ const Dashboard = () => {
                 ref={register}
                 className={errors && errors.expiration ? "is-invalid" : ""}
               >
-                <option>Never</option>
-                <option>10 Minutes</option>
-                <option>1 Hour</option>
-                <option>1 Day</option>
-                <option>1 Week</option>
-                <option>2 Weeks</option>
-                <option>1 Month</option>
-                <option>6 Months</option>
-                <option>1 Year</option>
+                <option>select</option>
+                <option>aminute</option>
+                <option>ahours</option>
               </Controller>
               {errors && errors.expiration && (
                 <span className="text-danger">{errors.expiration.message}</span>
@@ -103,9 +116,10 @@ const Dashboard = () => {
                 ref={register}
                 className={errors && errors.exposure ? "is-invalid" : ""}
               >
-                <option>Select</option>
-                <option>Public</option>
-                <option>Private</option>
+                <option>select</option>
+                <option>public </option>
+                <option>private</option>
+                <option>unlisted</option>
               </Controller>
               {errors && errors.exposure && (
                 <span className="text-danger">{errors.exposure.message}</span>
@@ -127,18 +141,37 @@ const Dashboard = () => {
                 <span className="text-danger">{errors.title.message}</span>
               )}
             </FormGroup>
-            <Button color="secondary">Submit</Button>
+            <Button color="secondary" type="submit" onClick={toggle}>
+              Add
+            </Button>
           </Form>
         </ModalBody>
       </Modal>
+
       <Table className="mt-5">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Added</th>
-            <th>Expires</th>
+            <th>NAME/TITLE</th>
+            <th>ADDED</th>
+            <th>EXPIRES</th>
           </tr>
         </thead>
+        <tbody>
+          {allpaste !== null &&
+            allpaste
+              .slice()
+              .reverse()
+              .map((item, index) => (
+                <tr key={index} className="li">
+                  <td>{item.title}</td>
+                  <td>
+                    <Moment format="DD/MM/YYYY">{item.created_at}</Moment>
+                  </td>
+                  <td>{item.Expiration}</td>
+                  {/* <td>{item.title}</td> */}
+                </tr>
+              ))}{" "}
+        </tbody>
       </Table>
     </Container>
   );

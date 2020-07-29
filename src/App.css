@@ -6,4 +6,23 @@
   margin: 14rem auto;
   max-width: 500px;
   width: 90%;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+.header {
+  border-bottom: 1px solid gray;
+}
+
+.logo {
+  height: 3rem;
+  width: 3rem;
+  /* margin-left: 0.9rem; */
+}
+.logo-text {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+.user {
+  font-weight: 600;
+  font-size: 1.3rem;
 }

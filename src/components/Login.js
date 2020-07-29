@@ -32,7 +32,8 @@ const Login = () => {
   };
 
   return (
-    <Container className="main-container" fluid="fluid">
+    <Container className="main-container bg-info" fluid="fluid">
+      <h2 className="text-center mb-4">Login</h2>
       <Form
         className="form-layout"
         onSubmit={handleSubmit(onSubmit)}
@@ -70,7 +71,7 @@ const Login = () => {
           )}
         </FormGroup>
 
-        <Button className="bg-info" name="submit">
+        <Button className="bg-secondary" name="submit">
           Log in
         </Button>
       </Form>
