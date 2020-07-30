@@ -7,7 +7,6 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useHistory } from "react-router-dom";
-// import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Redirect } from "react-router-dom";
 
@@ -28,7 +27,6 @@ const Login = () => {
   const accessToken = localStorage.getItem("token");
 
   const onSubmit = (data) => {
-    // console.log(data);
     dispatch(fetchLogin(data.userName, data.pwd, history));
   };
 

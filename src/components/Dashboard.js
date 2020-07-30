@@ -5,6 +5,7 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
+  ModalFooter,
   Input,
   Form,
   Container,
@@ -34,26 +35,26 @@ const Dashboard = () => {
 
   const toggle = () => setModal(!modal);
 
+  const [add, setAdd] = useState(false);
+
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    // console.log(data);
-
+    setAdd(false);
     dispatch(
       addPaste(data.newPaste, data.expiration, data.exposure, data.title)
     );
-
     toggle();
+    setAdd(true);
   };
 
   const { allpaste } = useSelector((state) => ({
     allpaste: state.loginReducer.getpaste.allpaste,
   }));
-  // console.log(allpaste);
 
   useEffect(() => {
     dispatch(getPaste());
-  }, [dispatch]);
+  }, [dispatch, add]);
 
   return (
     <>
@@ -65,12 +66,8 @@ const Dashboard = () => {
 
         <Modal isOpen={modal} toggle={toggle}>
           <ModalHeader toggle={toggle}>New Paste</ModalHeader>
-          <ModalBody>
-            <Form
-              className="form-layout"
-              onSubmit={handleSubmit(onSubmit)}
-              id="myform"
-            >
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <ModalBody>
               <FormGroup>
                 New Paste
                 <Controller
@@ -144,9 +141,14 @@ const Dashboard = () => {
                   <span className="text-danger">{errors.title.message}</span>
                 )}
               </FormGroup>
-              <Button color="secondary">Add</Button>
-            </Form>
-          </ModalBody>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="secondary">Add Paste</Button>
+              <Button color="secondary" onClick={toggle}>
+                cancel
+              </Button>
+            </ModalFooter>
+          </Form>
         </Modal>
 
         <Table striped bordered className="mt-3 border table-data">
@@ -165,10 +167,8 @@ const Dashboard = () => {
                 .map((item, index) => (
                   <tr key={index}>
                     <td>{item.title}</td>
-
                     <td>
                       <Moment format="MMM DD,YY">{item.created_at}</Moment>
-                      {/* {item.title} */}
                     </td>
                     <td>{item.Expiration}</td>
                   </tr>

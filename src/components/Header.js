@@ -20,11 +20,10 @@ const Header = () => {
   const toggle = () => setIsOpen(!isOpen);
   const history = useHistory();
 
-  const user = localStorage.getItem("tokenn");
-  // console.log(user);
+  const user = localStorage.getItem("userName");
 
   const logout = () => {
-    if (localStorage.clear("tokenn")) {
+    if (localStorage.clear("userName")) {
       history.push("/");
     } else {
       history.push("/dashboard");
@@ -55,12 +54,10 @@ const Header = () => {
             </NavLink>
           </NavItem>
         </Nav>
-
         <NavbarText className="user pr-3 text-white">
           <FaUser className="mr-1 text-info" />
           {user}
         </NavbarText>
-
         <Button onClick={logout}>
           <SignOutIcon size={16} />
         </Button>

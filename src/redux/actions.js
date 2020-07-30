@@ -13,18 +13,15 @@ export const fetchLogin = (identifier, password, history) => {
       })
       .then((res) => {
         localStorage.setItem("token", res.data.jwt);
-        localStorage.setItem("tokenn", res.data.user.username);
-
+        localStorage.setItem("userName", res.data.user.username);
         dispatch({
           type: "LOGIN_FETCH_SUCCESS",
           identifier: res.data.identifier,
           password: res.data.password,
         });
-
         toast.success("Login successfully!!", {
           position: toast.POSITION.TOP_CENTER,
         });
-
         history.push("/dashboard");
       })
       .catch((error) => {
@@ -39,7 +36,6 @@ export const fetchLogin = (identifier, password, history) => {
 export const addPaste = (content, expiration, exposure, title) => {
   const getToken = localStorage.getItem("token");
 
-  // console.log(getToken);
   return (dispatch) => {
     dispatch({ type: "ADDPASTE_PENDING" });
 
@@ -67,11 +63,8 @@ export const addPaste = (content, expiration, exposure, title) => {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 7000,
         });
-
-        window.location.reload();
       })
       .catch((error) => {
-        // console.log(error);
         dispatch({ type: "ADDPASTE_FAILURE", message: error.res });
       });
   };
@@ -79,7 +72,7 @@ export const addPaste = (content, expiration, exposure, title) => {
 
 export const getPaste = () => {
   const getToken = localStorage.getItem("token");
-  // console.log(getToken);
+
   return (dispatch) => {
     dispatch({ type: "GETPASTE_PENDING" });
 
@@ -89,13 +82,10 @@ export const getPaste = () => {
           Authorization: `Bearer ${getToken}`,
         },
       })
-
       .then((res) => {
         dispatch({ type: "GETPASTE_SUCCESS", allpaste: res.data });
       })
-
       .catch((error) => {
-        // console.log(error);
         dispatch({ type: "GETPASTE_FAILURE", message: error.res });
       });
   };

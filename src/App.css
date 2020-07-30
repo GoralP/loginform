@@ -30,8 +30,6 @@
   background-color: rgb(216, 212, 212);
 }
 .table-data {
-  /* word-wrap: break-word;
-  white-space: pre-wrap; */
   width: 100%;
   border-spacing: 0;
   border-collapse: collapse;
@@ -42,7 +40,6 @@ td {
 
 @media only screen and (min-width: 320px) and (max-width: 374px) {
   .logo {
-    /* height: 5rem; */
     width: 11rem;
   }
 }
