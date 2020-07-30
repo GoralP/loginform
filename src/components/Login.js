@@ -9,6 +9,7 @@ import * as yup from "yup";
 import { useHistory } from "react-router-dom";
 // import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Redirect } from "react-router-dom";
 
 const SignupSchema = yup.object().shape({
   userName: yup.string().required("Please Enter username"),
@@ -24,14 +25,16 @@ const Login = () => {
 
   const history = useHistory();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    dispatch(fetchLogin(data.userName, data.pwd, history));
+  const accessToken = localStorage.getItem("token");
 
-    // reset({ userName: "", pwd: "" });
+  const onSubmit = (data) => {
+    // console.log(data);
+    dispatch(fetchLogin(data.userName, data.pwd, history));
   };
 
-  return (
+  return accessToken ? (
+    <Redirect to="/dashboard" />
+  ) : (
     <Container className="main-container bg-info" fluid="fluid">
       <h2 className="text-center mb-4">Login</h2>
       <Form
@@ -75,7 +78,6 @@ const Login = () => {
           Log in
         </Button>
       </Form>
-      {/* <ToastContainer></ToastContainer> */}
     </Container>
   );
 };

@@ -28,7 +28,7 @@ export const fetchLogin = (identifier, password, history) => {
         history.push("/dashboard");
       })
       .catch((error) => {
-        toast.error("fail", {
+        toast.error("These credentials do not match", {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 5000,
         });
@@ -39,7 +39,7 @@ export const fetchLogin = (identifier, password, history) => {
 export const addPaste = (content, expiration, exposure, title) => {
   const getToken = localStorage.getItem("token");
 
-  console.log(getToken);
+  // console.log(getToken);
   return (dispatch) => {
     dispatch({ type: "ADDPASTE_PENDING" });
 
@@ -61,12 +61,17 @@ export const addPaste = (content, expiration, exposure, title) => {
       .then((res) => {
         dispatch({
           type: "ADDPASTE_SUCCESS",
-          paste: res.data,
+          paste: res.data.data,
         });
+        toast.success("New paste added successfully!!", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 7000,
+        });
+
         window.location.reload();
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         dispatch({ type: "ADDPASTE_FAILURE", message: error.res });
       });
   };
@@ -74,7 +79,7 @@ export const addPaste = (content, expiration, exposure, title) => {
 
 export const getPaste = () => {
   const getToken = localStorage.getItem("token");
-  console.log(getToken);
+  // console.log(getToken);
   return (dispatch) => {
     dispatch({ type: "GETPASTE_PENDING" });
 
@@ -87,11 +92,10 @@ export const getPaste = () => {
 
       .then((res) => {
         dispatch({ type: "GETPASTE_SUCCESS", allpaste: res.data });
-        console.log(res);
       })
 
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         dispatch({ type: "GETPASTE_FAILURE", message: error.res });
       });
   };

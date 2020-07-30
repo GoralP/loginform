@@ -1,33 +1,3 @@
-// import React from "react";
-// import { Container, Row, Col } from "reactstrap";
-// import pastebin from "../images/pastebin.jpg";
-// import { addPaste, getPaste } from "../redux/actions";
-// import { useDispatch, useSelector } from "react-redux";
-
-// const Header = () => {
-//   const dispatch = useDispatch();
-
-//   const abc = localStorage.getItem("tokenn");
-//   console.log(abc);
-//   return (
-//     <Container fluid="fluid" className="header">
-//       <Row className="mt-3">
-//         <Col xs="6" className="">
-//           <Row>
-//             <img src={pastebin} className="logo"></img>
-//             <p className="logo-text">PASTEBIN</p>
-//           </Row>
-//         </Col>
-//         <Col xs="6" className="">
-//           {abc}
-//         </Col>
-//       </Row>
-//     </Container>
-//   );
-// };
-
-// export default Header;
-
 import React, { useState } from "react";
 import {
   Collapse,
@@ -36,13 +6,17 @@ import {
   NavbarBrand,
   Nav,
   NavbarText,
-  Label,
   Button,
+  NavItem,
+  NavLink,
 } from "reactstrap";
-import pastebin from "../images/pastebin.jpg";
-import { Route, Redirect } from "react-router-dom";
+import pastebin from "../images/pastebin.PNG";
+
 import { useHistory } from "react-router-dom";
 
+import { SignOutIcon } from "@primer/octicons-react";
+
+import { FaUser } from "react-icons/fa";
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -50,7 +24,7 @@ const Header = () => {
   const history = useHistory();
 
   const user = localStorage.getItem("tokenn");
-  console.log(user);
+  // console.log(user);
 
   const logout = () => {
     if (localStorage.clear("tokenn")) {
@@ -61,19 +35,38 @@ const Header = () => {
   };
 
   return (
-    <Navbar color="white" light expand="md" className="header">
+    <Navbar className="header" light expand="md">
       <NavbarBrand>
         <img className="logo" src={pastebin} alt="logo" />
       </NavbarBrand>
-      <NavbarBrand>
-        <h4 className="text-secondary logo-text">PASTEBIN</h4>
-        <div></div>
-      </NavbarBrand>
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>
-        <Nav className="mr-auto" navbar></Nav>
-        <NavbarText className="user pr-3">{user}</NavbarText>
-        <Button onClick={logout}>Logout</Button>
+        <Nav className="mr-auto" navbar>
+          <NavItem>
+            <NavLink href="#" className="text-white">
+              HOME
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="#" className="text-white">
+              TOOLS
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="#" className="text-white">
+              PASTE
+            </NavLink>
+          </NavItem>
+        </Nav>
+
+        <NavbarText className="user pr-3 text-white">
+          <FaUser className="mr-1 text-info" />
+          {user}
+        </NavbarText>
+
+        <Button onClick={logout}>
+          <SignOutIcon size={16} />
+        </Button>
       </Collapse>
     </Navbar>
   );

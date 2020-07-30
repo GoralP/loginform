@@ -3,7 +3,7 @@
 }
 
 .main-container {
-  margin: 14rem auto;
+  margin: 11rem auto;
   max-width: 500px;
   width: 90%;
   padding-top: 1rem;
@@ -11,18 +11,38 @@
 }
 .header {
   border-bottom: 1px solid gray;
+  background-color: rgb(13, 57, 89);
 }
 
 .logo {
-  height: 3rem;
-  width: 3rem;
-  /* margin-left: 0.9rem; */
+  height: 3.9rem;
+  width: 15rem;
+  margin-top: -0.9rem;
+  margin-bottom: -0.8rem;
+  margin-left: -0.9rem;
 }
-.logo-text {
-  font-size: 1.8rem;
-  font-weight: 600;
-}
+
 .user {
   font-weight: 600;
   font-size: 1.3rem;
+}
+.table-heading {
+  background-color: rgb(216, 212, 212);
+}
+.table-data {
+  /* word-wrap: break-word;
+  white-space: pre-wrap; */
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+td {
+  word-break: break-all;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 374px) {
+  .logo {
+    /* height: 5rem; */
+    width: 11rem;
+  }
 }
