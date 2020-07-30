@@ -44,8 +44,6 @@ const Dashboard = () => {
     );
 
     toggle();
-
-    // dispatch(getPaste());
   };
 
   const { allpaste } = useSelector((state) => ({

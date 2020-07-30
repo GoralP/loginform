@@ -11,11 +11,8 @@ import {
   NavLink,
 } from "reactstrap";
 import pastebin from "../images/pastebin.PNG";
-
 import { useHistory } from "react-router-dom";
-
 import { SignOutIcon } from "@primer/octicons-react";
-
 import { FaUser } from "react-icons/fa";
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
