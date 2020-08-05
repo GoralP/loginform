@@ -1,23 +1,20 @@
 import React from "react";
 import { Form, Input, Container, Button, FormGroup } from "reactstrap";
-import "bootstrap/dist/css/bootstrap.css";
 import { useDispatch } from "react-redux";
-import { fetchLogin } from "../redux/actions";
+import { fetchLogin } from "../redux/actions/login";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useHistory } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
 import { Redirect } from "react-router-dom";
-
-const SignupSchema = yup.object().shape({
-  userName: yup.string().required("Please Enter username"),
-  pwd: yup.string().required("Please enter password"),
+const signupSchema = yup.object().shape({
+  username: yup.string().required(),
+  pwd: yup.string().required(),
 });
 
 const Login = () => {
   const { control, register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(SignupSchema),
+    resolver: yupResolver(signupSchema),
   });
 
   const dispatch = useDispatch();
@@ -27,13 +24,13 @@ const Login = () => {
   const accessToken = localStorage.getItem("token");
 
   const onSubmit = (data) => {
-    dispatch(fetchLogin(data.userName, data.pwd, history));
+    dispatch(fetchLogin(data.username, data.pwd, history));
   };
 
   return accessToken ? (
     <Redirect to="/dashboard" />
   ) : (
-    <Container className="main-container bg-info" fluid="fluid">
+    <Container className="main-container bg-info" fluid={true}>
       <h2 className="text-center mb-4">Login</h2>
       <Form
         className="form-layout"
@@ -44,15 +41,15 @@ const Login = () => {
           <Controller
             as={Input}
             control={control}
-            name="userName"
+            name="username"
             type="text"
             placeholder="Username"
             defaultValue=""
             ref={register}
-            className={errors && errors.userName ? "is-invalid" : ""}
+            className={errors && errors.username ? "is-invalid" : ""}
           />
-          {errors && errors.userName && (
-            <span className="text-danger">{errors.userName.message}</span>
+          {errors && errors.username && (
+            <span className="text-danger">{errors.username.message}</span>
           )}
         </FormGroup>
 

@@ -10,25 +10,27 @@ import {
   Form,
   Container,
   FormGroup,
+  Label,
 } from "reactstrap";
 import { useForm, Controller } from "react-hook-form";
 import { Header } from "../components";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { addPaste, getPaste } from "../redux/actions";
+import { addPaste } from "../redux/actions/addPaste";
+import { getPaste } from "../redux/actions/getPaste";
 import Moment from "react-moment";
 
-const SignupSchema = yup.object().shape({
-  newPaste: yup.string().required(),
-  expiration: yup.string().required(),
-  exposure: yup.string().required(),
-  title: yup.string().required(),
+const signupSchema = yup.object().shape({
+  newpaste: yup.string().required("Please enter paste description"),
+  expiration: yup.string().required("Please enter expiration"),
+  exposure: yup.string().required("Please enter exposure"),
+  title: yup.string().required("Please enter title"),
 });
 
 const Dashboard = () => {
   const { control, register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(SignupSchema),
+    resolver: yupResolver(signupSchema),
   });
 
   const [modal, setModal] = useState(false);
@@ -42,14 +44,15 @@ const Dashboard = () => {
   const onSubmit = (data) => {
     setAdd(false);
     dispatch(
-      addPaste(data.newPaste, data.expiration, data.exposure, data.title)
+      addPaste(data.newpaste, data.expiration, data.exposure, data.title)
     );
     toggle();
     setAdd(true);
   };
 
-  const { allpaste } = useSelector((state) => ({
-    allpaste: state.loginReducer.getpaste.allpaste,
+  const { loading, allpaste } = useSelector((state) => ({
+    loading: state.getPasteReducer.loading,
+    allpaste: state.getPasteReducer.allpaste,
   }));
 
   useEffect(() => {
@@ -69,23 +72,23 @@ const Dashboard = () => {
           <Form onSubmit={handleSubmit(onSubmit)}>
             <ModalBody>
               <FormGroup>
-                New Paste
+                <Label>New Paste</Label>
                 <Controller
                   as={Input}
                   control={control}
-                  name="newPaste"
+                  name="newpaste"
                   type="textarea"
                   placeholder="Enter Paste Description"
-                  defaultValue=""
+                  // defaultValue=""
                   ref={register}
-                  className={errors && errors.newPaste ? "is-invalid" : ""}
+                  className={errors && errors.newpaste ? "is-invalid" : ""}
                 />
-                {errors && errors.newPaste && (
-                  <span className="text-danger">{errors.newPaste.message}</span>
+                {errors && errors.newpaste && (
+                  <span className="text-danger">{errors.newpaste.message}</span>
                 )}
               </FormGroup>
               <FormGroup>
-                Paste Expiration :
+                <Label> Paste Expiration </Label>:
                 <Controller
                   as={Input}
                   control={control}
@@ -95,9 +98,9 @@ const Dashboard = () => {
                   ref={register}
                   className={errors && errors.expiration ? "is-invalid" : ""}
                 >
-                  <option>select</option>
-                  <option>aminute</option>
-                  <option>ahours</option>
+                  <option value="">select</option>
+                  <option value="aminute">aminute</option>
+                  <option value="ahours">ahours</option>
                 </Controller>
                 {errors && errors.expiration && (
                   <span className="text-danger">
@@ -106,27 +109,28 @@ const Dashboard = () => {
                 )}
               </FormGroup>
               <FormGroup>
-                Paste Exposure :
+                <Label>Paste Exposure</Label> :
                 <Controller
                   as={Input}
                   control={control}
                   name="exposure"
                   type="select"
-                  defaultValue=""
+                  // defaultValue=""
                   ref={register}
                   className={errors && errors.exposure ? "is-invalid" : ""}
                 >
-                  <option>select</option>
-                  <option>public </option>
-                  <option>private</option>
-                  <option>unlisted</option>
+                  <option value="">select</option>
+                  <option value="public">public </option>
+                  <option value="private">private</option>
+                  <option value="unlisted">unlisted</option>
                 </Controller>
                 {errors && errors.exposure && (
                   <span className="text-danger">{errors.exposure.message}</span>
                 )}
               </FormGroup>
+
               <FormGroup>
-                Title
+                <Label>Title</Label>
                 <Controller
                   as={Input}
                   control={control}
@@ -143,7 +147,7 @@ const Dashboard = () => {
               </FormGroup>
             </ModalBody>
             <ModalFooter>
-              <Button color="secondary">Add Paste</Button>
+              <Button color="primary">Add Paste</Button>
               <Button color="secondary" onClick={toggle}>
                 cancel
               </Button>
@@ -154,25 +158,41 @@ const Dashboard = () => {
         <Table striped bordered className="mt-3 border table-data">
           <thead>
             <tr className="table-heading">
-              <th>NAME/TITLE</th>
+              <th>TITLE</th>
+              <th>CONTENT</th>
               <th>ADDED</th>
               <th>EXPIRES</th>
+              <th>EXPOSURE</th>
             </tr>
           </thead>
+
           <tbody className="">
-            {allpaste !== null &&
-              allpaste
-                .slice()
-                .reverse()
-                .map((item, index) => (
-                  <tr key={index}>
-                    <td>{item.title}</td>
-                    <td>
-                      <Moment format="MMM DD,YY">{item.created_at}</Moment>
-                    </td>
-                    <td>{item.Expiration}</td>
-                  </tr>
-                ))}{" "}
+            {loading ? (
+              <tr>
+                <td colspan="5">Loading...</td>
+              </tr>
+            ) : (
+              <>
+                {allpaste !== null &&
+                  allpaste
+                    .sort((a, b) =>
+                      new Date(a.created_at) > new Date(b.created_at) ? -1 : 0
+                    )
+                    .map((item) => (
+                      <tr>
+                        <td>{item.title}</td>
+                        <td>{item.content}</td>
+                        <td>
+                          <Moment format="MMM DD, YYYY">
+                            {item.created_at}
+                          </Moment>
+                        </td>
+                        <td>{item.Expiration}</td>
+                        <td>{item.Exposure}</td>
+                      </tr>
+                    ))}
+              </>
+            )}
           </tbody>
         </Table>
       </Container>

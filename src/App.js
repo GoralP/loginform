@@ -4,10 +4,10 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
-import { Dashboard } from "./components";
+import { Dashboard, PrivateRoute } from "./components";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { PrivateRoute } from "./components";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
@@ -18,7 +18,7 @@ const App = () => {
           <PrivateRoute path="/dashboard" component={Dashboard}></PrivateRoute>
         </Switch>
       </Router>
-      <ToastContainer></ToastContainer>
+      <ToastContainer />
     </Provider>
   );
 };
