@@ -15,7 +15,6 @@ export const fetchLogin = (identifier, password, history) => {
         localStorage.setItem("userName", res.data.user.username);
         dispatch({
           type: "LOGIN_FETCH_SUCCESS",
-          // posts: res.data.data,
         });
         toast.success("Login successfully!!", {
           position: toast.POSITION.TOP_CENTER,

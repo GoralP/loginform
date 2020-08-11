@@ -1,7 +1,8 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { getPaste } from "./getPaste";
 
-export const addPaste = (content, expiration, exposure, title) => {
+export const addPaste = (content, expiration, exposure, title, setModal) => {
   const getToken = localStorage.getItem("token");
 
   return (dispatch) => {
@@ -22,19 +23,22 @@ export const addPaste = (content, expiration, exposure, title) => {
           },
         }
       )
+
       .then((res) => {
         dispatch({
           type: "ADD_PASTE_SUCCESS",
         });
-        // console.log(res);
+        dispatch(getPaste());
         toast.success("New paste added successfully!!", {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 7000,
         });
+        setModal(false);
       })
       .catch((error) => {
         dispatch({ type: "ADD_PASTE_FAILURE", message: error.message });
-        toast.error("New paste not added", {
+        setModal(true);
+        toast.error("Something went wrong", {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 5000,
         });

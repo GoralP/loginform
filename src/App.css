@@ -1,25 +1,24 @@
 .App {
   text-align: center;
 }
+
 .background {
-  background-color: #292931;
-  background: url(https://i0.imgpile.com/2016/09/14/7861aab59aa07c9499278339f41522c3.jpg)
-    no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-.main-container {
-  margin: 11.4rem auto;
+.form-layout {
+  margin: 0 auto;
   max-width: 500px;
   width: 90%;
-  padding-top: 1rem;
+  padding: 1rem 1rem;
   padding-bottom: 0.8rem;
-  border: 1px solid gray;
   border-radius: 0.5rem;
+  background-color: white;
 }
+
 .header {
   border-bottom: 1px solid gray;
   background-color: rgb(13, 57, 89);
@@ -75,9 +74,7 @@ td {
     width: 8rem;
     height: 3.2rem;
   }
-  .main-container {
-    max-width: 270px;
-  }
+
   .table-data {
     font-size: 0.5rem;
   }
@@ -88,9 +85,7 @@ td {
     width: 9rem;
     height: 3rem;
   }
-  .main-container {
-    max-width: 300px;
-  }
+
   .table-data {
     font-size: 0.6rem;
   }
@@ -101,9 +96,7 @@ td {
     width: 10rem;
     height: 3.1rem;
   }
-  .main-container {
-    max-width: 300px;
-  }
+
   .table-data {
     font-size: 0.8rem;
   }

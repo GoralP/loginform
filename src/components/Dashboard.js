@@ -37,17 +37,18 @@ const Dashboard = () => {
 
   const toggle = () => setModal(!modal);
 
-  const [add, setAdd] = useState(false);
-
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    setAdd(false);
     dispatch(
-      addPaste(data.newpaste, data.expiration, data.exposure, data.title)
+      addPaste(
+        data.newpaste,
+        data.expiration,
+        data.exposure,
+        data.title,
+        setModal
+      )
     );
-    toggle();
-    setAdd(true);
   };
 
   const { loading, allpaste } = useSelector((state) => ({
@@ -57,17 +58,18 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(getPaste());
-  }, [dispatch, add]);
+  }, [dispatch]);
 
   return (
     <>
       <Header></Header>
+
       <Container>
         <Button color="info" onClick={toggle} className="mt-3">
           Add New Paste
         </Button>
 
-        <Modal isOpen={modal} toggle={toggle}>
+        <Modal isOpen={modal}>
           <ModalHeader toggle={toggle}>New Paste</ModalHeader>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <ModalBody>
@@ -79,7 +81,7 @@ const Dashboard = () => {
                   name="newpaste"
                   type="textarea"
                   placeholder="Enter Paste Description"
-                  // defaultValue=""
+                  defaultValue=""
                   ref={register}
                   className={errors && errors.newpaste ? "is-invalid" : ""}
                 />
@@ -94,7 +96,6 @@ const Dashboard = () => {
                   control={control}
                   name="expiration"
                   type="select"
-                  defaultValue=""
                   ref={register}
                   className={errors && errors.expiration ? "is-invalid" : ""}
                 >
@@ -115,7 +116,6 @@ const Dashboard = () => {
                   control={control}
                   name="exposure"
                   type="select"
-                  // defaultValue=""
                   ref={register}
                   className={errors && errors.exposure ? "is-invalid" : ""}
                 >

@@ -23,7 +23,7 @@ const Header = () => {
   const user = localStorage.getItem("userName");
 
   const logout = () => {
-    if (localStorage.clear("userName")) {
+    if (localStorage.clear("token")) {
       history.push("/");
     } else {
       history.push("/dashboard");
