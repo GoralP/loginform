@@ -22,14 +22,14 @@ import { addPaste } from "../redux/actions/addPaste";
 import { editPaste } from "../redux/actions/editPaste";
 import { getPaste, fetchSinglePaste } from "../redux/actions/getPaste";
 import { deletePaste } from "../redux/actions/deletePaste";
-import { FaTrash, FaPencilAlt } from "react-icons/fa";
+import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
 import Moment from "react-moment";
 import Pagination from "react-js-pagination";
 
 const signupSchema = yup.object().shape({
-  newpaste: yup.string().required("Please enter paste description"),
-  expiration: yup.string().required("Please enter expiration"),
-  exposure: yup.string().required("Please enter exposure"),
+  content: yup.string().required("Please enter paste description"),
+  Expiration: yup.string().required("Please enter expiration"),
+  Exposure: yup.string().required("Please enter exposure"),
   title: yup.string().required("Please enter title"),
 });
 
@@ -50,9 +50,9 @@ const Dashboard = () => {
   const onSubmit = (data) => {
     dispatch(
       addPaste(
-        data.newpaste,
-        data.expiration,
-        data.exposure,
+        data.content,
+        data.Expiration,
+        data.Exposure,
         data.title,
         setModal
       )
@@ -62,9 +62,9 @@ const Dashboard = () => {
   const onSubmitEdit = (data) => {
     dispatch(
       editPaste(
-        data.newpaste,
-        data.expiration,
-        data.exposure,
+        data.content,
+        data.Expiration,
+        data.Exposure,
         data.title,
         data.id,
         setUpdateModal
@@ -100,15 +100,15 @@ const Dashboard = () => {
                 <Controller
                   as={Input}
                   control={control}
-                  name="newpaste"
+                  name="content"
                   type="textarea"
                   placeholder="Enter Paste Description"
                   defaultValue=""
                   ref={register}
-                  className={errors && errors.newpaste ? "is-invalid" : ""}
+                  className={errors && errors.content ? "is-invalid" : ""}
                 />
-                {errors && errors.newpaste && (
-                  <span className="text-danger">{errors.newpaste.message}</span>
+                {errors && errors.content && (
+                  <span className="text-danger">{errors.content.message}</span>
                 )}
               </FormGroup>
               <FormGroup>
@@ -116,18 +116,18 @@ const Dashboard = () => {
                 <Controller
                   as={Input}
                   control={control}
-                  name="expiration"
+                  name="Expiration"
                   type="select"
                   ref={register}
-                  className={errors && errors.expiration ? "is-invalid" : ""}
+                  className={errors && errors.Expiration ? "is-invalid" : ""}
                 >
                   <option value="">select</option>
                   <option value="aminute">aminute</option>
                   <option value="ahours">ahours</option>
                 </Controller>
-                {errors && errors.expiration && (
+                {errors && errors.Expiration && (
                   <span className="text-danger">
-                    {errors.expiration.message}
+                    {errors.Expiration.message}
                   </span>
                 )}
               </FormGroup>
@@ -136,18 +136,18 @@ const Dashboard = () => {
                 <Controller
                   as={Input}
                   control={control}
-                  name="exposure"
+                  name="Exposure"
                   type="select"
                   ref={register}
-                  className={errors && errors.exposure ? "is-invalid" : ""}
+                  className={errors && errors.Exposure ? "is-invalid" : ""}
                 >
                   <option value="">select</option>
                   <option value="public">public </option>
                   <option value="private">private</option>
                   <option value="unlisted">unlisted</option>
                 </Controller>
-                {errors && errors.exposure && (
-                  <span className="text-danger">{errors.exposure.message}</span>
+                {errors && errors.Exposure && (
+                  <span className="text-danger">{errors.Exposure.message}</span>
                 )}
               </FormGroup>
 
@@ -200,16 +200,16 @@ const Dashboard = () => {
                   <Controller
                     as={Input}
                     control={control}
-                    name="newpaste"
+                    name="content"
                     type="textarea"
                     placeholder="Enter Paste Description"
                     defaultValue={paste.content}
                     ref={register}
-                    className={errors && errors.newpaste ? "is-invalid" : ""}
+                    className={errors && errors.content ? "is-invalid" : ""}
                   />
-                  {errors && errors.newpaste && (
+                  {errors && errors.content && (
                     <span className="text-danger">
-                      {errors.newpaste.message}
+                      {errors.content.message}
                     </span>
                   )}
                 </FormGroup>
@@ -218,19 +218,19 @@ const Dashboard = () => {
                   <Controller
                     as={Input}
                     control={control}
-                    name="expiration"
+                    name="Expiration"
                     type="select"
                     ref={register}
                     defaultValue={paste.Expiration}
-                    className={errors && errors.expiration ? "is-invalid" : ""}
+                    className={errors && errors.Expiration ? "is-invalid" : ""}
                   >
                     <option value="">select</option>
                     <option value="aminute">aminute</option>
                     <option value="ahours">ahours</option>
                   </Controller>
-                  {errors && errors.expiration && (
+                  {errors && errors.Expiration && (
                     <span className="text-danger">
-                      {errors.expiration.message}
+                      {errors.Expiration.message}
                     </span>
                   )}
                 </FormGroup>
@@ -239,20 +239,20 @@ const Dashboard = () => {
                   <Controller
                     as={Input}
                     control={control}
-                    name="exposure"
+                    name="Exposure"
                     type="select"
                     ref={register}
                     defaultValue={paste.Exposure}
-                    className={errors && errors.exposure ? "is-invalid" : ""}
+                    className={errors && errors.Exposure ? "is-invalid" : ""}
                   >
                     <option value="">select</option>
                     <option value="public">public </option>
                     <option value="private">private</option>
                     <option value="unlisted">unlisted</option>
                   </Controller>
-                  {errors && errors.exposure && (
+                  {errors && errors.Exposure && (
                     <span className="text-danger">
-                      {errors.exposure.message}
+                      {errors.Exposure.message}
                     </span>
                   )}
                 </FormGroup>
@@ -322,8 +322,16 @@ const Dashboard = () => {
                         <td>{item.Expiration}</td>
                         <td>{item.Exposure}</td>
                         <td>
-                          <FaTrash
-                            onClick={() => dispatch(deletePaste(item.id))}
+                          <FaTrashAlt
+                            onClick={() => {
+                              if (
+                                window.confirm(
+                                  "Are you sure, you want to delete?"
+                                )
+                              ) {
+                                dispatch(deletePaste(item.id));
+                              }
+                            }}
                           />
                           <FaPencilAlt
                             className="ml-3"

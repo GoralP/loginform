@@ -37,7 +37,7 @@ export const addPaste = (content, expiration, exposure, title, setModal) => {
       })
       .catch((error) => {
         dispatch({ type: "ADD_PASTE_FAILURE", message: error.message });
-        setModal(true);
+        // setModal(true);
         toast.error("Something went wrong", {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 5000,

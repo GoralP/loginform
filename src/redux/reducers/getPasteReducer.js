@@ -3,7 +3,7 @@ const initialState = {
   allpaste: null,
   error: false,
   message: null,
-  singlePaste: { loading: false, paste: null },
+  singlePaste: { loading: false, paste: null, error: false, message: null },
 };
 
 const getPasteReducer = (state = initialState, action) => {
@@ -27,6 +27,11 @@ const getPasteReducer = (state = initialState, action) => {
       return { ...state, singlePaste: { loading: true, paste: null } };
     case "SINGLE_PASTE_SUCCESS":
       return { ...state, singlePaste: { loading: false, paste: action.paste } };
+    case "SINGLE_PASTE_FAILURE":
+      return {
+        ...state,
+        singlePaste: { loading: false, error: true, message: action.message },
+      };
     default:
       return { ...state };
   }

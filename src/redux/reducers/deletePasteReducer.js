@@ -13,7 +13,6 @@ const deletePasteReducer = (state = initialState, action, id) => {
       return {
         ...state,
         loading: false,
-        deletepaste: action.deletepaste,
       };
     case "DELETE_PASTE_FAILURE":
       return {

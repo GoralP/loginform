@@ -35,6 +35,9 @@ export const fetchSinglePaste = (id) => {
       })
       .then((res) => {
         dispatch({ type: "SINGLE_PASTE_SUCCESS", paste: res.data });
+      })
+      .catch((error) => {
+        dispatch({ type: "SINGLE_PASTE_FAILURE", message: error.message });
       });
   };
 };

@@ -13,7 +13,6 @@ const editPasteReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        editpaste: action.editpaste,
       };
     case "EDIT_PASTE_FAILURE":
       return {

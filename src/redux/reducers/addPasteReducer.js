@@ -13,7 +13,6 @@ const addPasteReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        paste: action.paste,
       };
     case "ADD_PASTE_FAILURE":
       return {
