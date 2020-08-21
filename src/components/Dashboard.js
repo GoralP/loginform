@@ -341,11 +341,9 @@ const Dashboard = () => {
         </Table>
         <div>
           <Pagination
-            // activePage={this.state.activePage}
             itemsCountPerPage={10}
             totalItemsCount={450}
             pageRangeDisplayed={10}
-            // onChange={this.handlePageChange.bind(this)}
           />
         </div>
       </Container>

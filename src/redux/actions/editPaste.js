@@ -14,7 +14,6 @@ export const editPaste = (
 
   return (dispatch) => {
     dispatch({ type: "EDIT_PASTE_PENDING" });
-    // console.log(content, expiration, exposure, title, id);
     axios
       .put(
         `https://pastebindemo.herokuapp.com/pastes/${id}`,
