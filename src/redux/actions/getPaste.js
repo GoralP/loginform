@@ -21,3 +21,20 @@ export const getPaste = () => {
       });
   };
 };
+
+export const fetchSinglePaste = (id) => {
+  const getToken = localStorage.getItem("token");
+  return (dispatch) => {
+    dispatch({ type: "SINGLE_PASTE_PENDING" });
+
+    axios
+      .get(`https://pastebindemo.herokuapp.com/pastes/${id}`, {
+        headers: {
+          Authorization: `Bearer ${getToken}`,
+        },
+      })
+      .then((res) => {
+        dispatch({ type: "SINGLE_PASTE_SUCCESS", paste: res.data });
+      });
+  };
+};
